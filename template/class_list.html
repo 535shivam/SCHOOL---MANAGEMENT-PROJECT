@@ -1,0 +1,8 @@
+<h2>All Classes</h2>
+<ul>
+    {% for cls in classes %}
+        <li>{{ cls.class_name }} – {{ cls.subject }} – {{ cls.teacher.full_name }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'class_add' %}">Add another class</a>
+<a href="{% url 'admin_dashboard' %}">back</a>

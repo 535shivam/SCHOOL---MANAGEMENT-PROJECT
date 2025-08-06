@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Time Table</title>
+</head>
+<body>
+    <h2>Your Classes</h2>
+
+    {% if classes %}
+        <ul>
+            {% for cls in classes %}
+                <li>{{ cls.class_name }} - {{ cls.subject }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No classes assigned yet.</p>
+    {% endif %}
+
+    <a href="{% url 'teacher_dashboard' %}">Back</a>
+</body>
+</html>

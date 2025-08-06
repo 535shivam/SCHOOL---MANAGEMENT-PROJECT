@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login , logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from .models import *
 from .forms import *
 
@@ -132,3 +133,45 @@ def teacher_info_view(request):
         form = TeacherInfoForm(instance=teacher_info)
 
     return render(request,'teacher_info.html',{'form':form})
+
+
+@login_required
+def teacher_timetable_view(request):
+    if request.user.profile.role != 'teacher':
+        return HttpResponse("Unauthorized", status=403)
+
+    try:
+        teacher_info = TeacherInfoModel.objects.get(user=request.user)
+    except TeacherInfoModel.DoesNotExist:
+        return HttpResponse("Teacher profile not found.")
+
+    classes = ClassRoomModel.objects.filter(teacher=teacher_info)
+    return render(request, 'teacher_timetable.html', {'classes': classes})
+
+
+# class add
+@login_required
+def class_add_view(request):
+    if request.user.profile.role != 'admin':
+        return HttpResponse("Unauthorized", status=403)
+
+    if request.method == 'POST':
+        form = ClassRoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Class added.")
+            return redirect('class_list')
+    else:
+        form = ClassRoomForm()
+
+    return render(request, 'class_add.html', {'form': form})
+
+
+# create class
+@login_required
+def class_list_view(request):
+    if request.user.profile.role != 'admin':
+        return HttpResponse("Unauthorized", status=403)
+
+    classes = ClassRoomModel.objects.all()
+    return render(request, 'class_list.html', {'classes': classes})

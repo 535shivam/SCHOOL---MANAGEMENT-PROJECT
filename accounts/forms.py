@@ -37,3 +37,10 @@ class TeacherInfoForm(forms.ModelForm):
             'language': forms.Select(attrs={'class': 'form-control'}),
             'subject': forms.Select(attrs={'class': 'form-control'})        
         }
+
+
+# Add class room titmetable
+class ClassRoomForm(forms.ModelForm):
+    class Meta:
+        model = ClassRoomModel
+        fields = ['teacher', 'class_name', 'subject']

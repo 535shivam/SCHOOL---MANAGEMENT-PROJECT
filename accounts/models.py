@@ -75,3 +75,12 @@ class TeacherInfoModel(models.Model):
     def __str__(self):
         return self.full_name
     
+
+#Time Table
+class ClassRoomModel(models.Model):
+    teacher = models.ForeignKey(TeacherInfoModel, on_delete=models.CASCADE)
+    class_name = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.class_name} - {self.subject}"

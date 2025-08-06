@@ -10,4 +10,7 @@ urlpatterns = [
     path('unauthorized/', unauthorized_view, name='unauthorized'),
     path('student/info/', student_info_view, name='student_info'),
     path('teacher/info/', teacher_info_view, name='teacher_info'),
+    path('teacher/timetable/', teacher_timetable_view, name='teacher_timetable'),
+    path('admin/class/add/', class_add_view, name='class_add'),
+    path('admin/class/list/', class_list_view, name='class_list'),
 ]

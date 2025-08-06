@@ -6,6 +6,7 @@
 <form method="POST">{% csrf_token %}{{ form.as_p }}<input type="submit" value="Create User"></form>
 <h2>Welcome Admin</h2>
 <a href="{% url 'logout' %}">Logout</a>
+<a href="{% url 'class_list' %}">Class List</a>
 
 </body>
 </html>
