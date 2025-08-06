@@ -208,3 +208,75 @@ def add_student_marks(request):
         form = StudentMarksForm()
 
     return render(request, 'add_marks.html', {'form': form})
+
+
+# student result
+@login_required
+def student_marks_view(request):
+    if request.user.profile.role != 'student':
+        return HttpResponse("Unauthorized", status=403)
+
+    try:
+        marks = StudentMarksModel.objects.get(student=request.user)
+    except StudentMarksModel.DoesNotExist:
+        marks = None
+
+    return render(request, 'student_marks.html', {'marks': marks})
+
+
+# Teacher send notice
+@login_required
+def send_notice_view(request):
+    if request.user.profile.role != 'teacher':
+        return HttpResponse("Unauthorized", status=403)
+
+    if request.method == 'POST':
+        form = StudentNoticeForm(request.POST, request.FILES)
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.teacher = request.user
+            notice.save()
+            messages.success(request, "Notice sent successfully.")
+            return redirect('send_notice')
+    else:
+        form = StudentNoticeForm()
+
+    return render(request, 'send_notice.html', {'form': form})
+
+
+#student see notice
+@login_required
+def student_notices_view(request):
+    if request.user.profile.role != 'student':
+        return HttpResponse("Unauthorized", status=403)
+
+    notices = request.user.notices_received.all().order_by('-created_at')
+    return render(request, 'student_notices.html', {'notices': notices})
+
+
+#admin send general notice
+@login_required
+def send_general_notice(request):
+    if request.user.profile.role != 'admin':
+        return HttpResponse("Unauthorized", status=403)
+
+    if request.method == 'POST':
+        form = GeneralNoticeForm(request.POST, request.FILES)
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.sender = request.user
+            notice.save()
+            messages.success(request, "General notice sent successfully.")
+            return redirect('send_general_notice')
+    else:
+        form = GeneralNoticeForm()
+
+    return render(request, 'send_general_notice.html', {'form': form})
+
+
+
+#user see all genaral notice
+@login_required
+def general_notices_view(request):
+    notices = GeneralNoticeModel.objects.all().order_by('-created_at')
+    return render(request, 'general_notices.html', {'notices': notices})

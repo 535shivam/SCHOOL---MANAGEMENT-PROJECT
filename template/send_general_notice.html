@@ -1,0 +1,7 @@
+<h2>Send General Notice</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Send</button>
+</form>
+<a href="{% url 'admin_dashboard' %}">Home</a>

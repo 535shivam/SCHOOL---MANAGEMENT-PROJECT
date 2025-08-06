@@ -51,3 +51,16 @@ class StudentMarksForm(forms.ModelForm):
         model = StudentMarksModel
         exclude = ['total_marks', 'percentage', 'division']
 
+
+#student Notice Form
+class StudentNoticeForm(forms.ModelForm):
+    class Meta:
+        model = StudentNoticeModel
+        fields = ['student', 'title', 'message', 'upload']
+
+
+#General Notice for all user
+class GeneralNoticeForm(forms.ModelForm):
+    class Meta:
+        model = GeneralNoticeModel
+        fields = ['title', 'message', 'upload']

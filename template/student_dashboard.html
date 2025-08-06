@@ -4,7 +4,10 @@
 <body>
 <h2>Welcome Student: {{ request.user.username }}</h2>
 <p>Your personal details/classes here...</p>
+<a href="{% url 'general_notices' %}">View General Notices</a>
 <a href="{% url 'student_info' %}">Add Personal Information</a>&nbsp;
+<a href="{% url 'student_marks' %}">Result</a>&nbsp;
+<a href="{% url 'student_notices' %}">Notice</a>&nbsp;
 <a href="{% url 'logout' %}">Logout</a>
 </body>
 </html>

@@ -14,4 +14,9 @@ urlpatterns = [
     path('admin/class/add/', class_add_view, name='class_add'),
     path('admin/class/list/', class_list_view, name='class_list'),
     path('teacher/add-marks/', add_student_marks, name='add_marks'),
+    path('student/marks/', student_marks_view, name='student_marks'),
+    path('teacher/send-notice/', send_notice_view, name='send_notice'),
+    path('student/notices/', student_notices_view, name='student_notices'),
+    path('admin/general-notice/', send_general_notice, name='send_general_notice'),
+    path('user/general-notices/', general_notices_view, name='general_notices'),
 ]

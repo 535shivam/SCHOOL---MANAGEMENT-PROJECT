@@ -1,0 +1,18 @@
+<h2>Your Notices</h2>
+
+{% if notices %}
+  <ul>
+  {% for n in notices %}
+    <li>
+      <strong>{{ n.title }}</strong> – {{ n.created_at|date:"d M Y H:i" }}<br>
+      {{ n.message }}<br>
+      {% if n.upload %}
+        <a href="{{ n.upload.url }}" target="_blank">Download Attachment</a><br>
+      {% endif %}
+    </li><br>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No notices received yet.</p>
+{% endif %}
+<a href="{% url 'student_dashboard' %}">Home</a>

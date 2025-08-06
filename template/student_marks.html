@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Marks</title>
+</head>
+<body>
+    <h2>Welcome, {{ request.user.username }}</h2>
+    <h3>Your Marks</h3>
+
+    {% if marks %}
+        <ul>
+            <li>Subject 1: {{ marks.subject1 }}</li>
+            <li>Subject 2: {{ marks.subject2 }}</li>
+            <li>Subject 3: {{ marks.subject3 }}</li>
+            <li>Subject 4: {{ marks.subject4 }}</li>
+            <li>Subject 5: {{ marks.subject5 }}</li>
+            <li>Subject 6: {{ marks.subject6 }}</li>
+            <li>Subject 7: {{ marks.subject7 }}</li>
+            <li>Subject 8: {{ marks.subject8 }}</li>
+            <li>Subject 9: {{ marks.subject9 }}</li>
+            <li>Subject 10: {{ marks.subject10 }}</li>
+            <li><strong>Total Marks:</strong> {{ marks.total_marks }}</li>
+            <li><strong>Percentage:</strong> {{ marks.percentage }}%</li>
+            <li><strong>Division:</strong> {{ marks.division }}</li>
+        </ul>
+    {% else %}
+        <p>No marks available yet.</p>
+    {% endif %}
+
+    <a href="{% url 'student_dashboard' %}">Home</a>
+</body>
+</html>

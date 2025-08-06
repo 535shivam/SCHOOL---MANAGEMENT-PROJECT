@@ -124,3 +124,28 @@ class StudentMarksModel(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.percentage:.2f}%"
+
+
+#student notice model
+class StudentNoticeModel(models.Model):
+    teacher = models.ForeignKey(User , on_delete=models.CASCADE , limit_choices_to={'profile__role': 'teacher'} , related_name='notices_sent')
+    student = models.ForeignKey(User , on_delete=models.CASCADE , limit_choices_to={'profile__role': 'student'} , related_name='notices_received')
+    title = models.CharField(max_length=100)
+    message = models.TextField()
+    upload = models.FileField(upload_to='student_notes/' ,blank=True , null= True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} → {self.student.username}"
+    
+
+# common msg by admin
+class GeneralNoticeModel(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE , limit_choices_to={'profile__role': 'admin'})
+    title = models.CharField(max_length=100)
+    message = models.TextField()
+    upload = models.FileField(upload_to='general_notices/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

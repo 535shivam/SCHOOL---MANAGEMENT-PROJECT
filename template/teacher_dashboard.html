@@ -4,9 +4,11 @@
 <body>
 <h2>Welcome Teacher: {{ request.user.username }}</h2>
 <p>Your subject/classes logic here...</p>
+<a href="{% url 'general_notices' %}">View General Notices</a>
 <a href="{% url 'teacher_info' %}">Add Personal Information</a>&nbsp;
 <a href="{% url 'teacher_timetable' %}">Timetable</a>&nbsp;
 <a href="{% url 'add_marks' %}">Add Marks</a>&nbsp;
+<a href="{% url 'send_notice' %}">Send Notice</a>&nbsp;
 <a href="{% url 'logout' %}">Logout</a>
 
 </body>
