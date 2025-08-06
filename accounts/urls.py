@@ -19,4 +19,5 @@ urlpatterns = [
     path('student/notices/', student_notices_view, name='student_notices'),
     path('admin/general-notice/', send_general_notice, name='send_general_notice'),
     path('user/general-notices/', general_notices_view, name='general_notices'),
+     path('teacher/attendance/', take_attendance_view, name='take_attendance'),
 ]

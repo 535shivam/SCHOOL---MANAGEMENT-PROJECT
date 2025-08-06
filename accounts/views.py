@@ -4,8 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.utils import timezone
 from .models import *
 from .forms import *
+import re
 
 # LOGIN VIEW
 def login_view(request):
@@ -280,3 +282,41 @@ def send_general_notice(request):
 def general_notices_view(request):
     notices = GeneralNoticeModel.objects.all().order_by('-created_at')
     return render(request, 'general_notices.html', {'notices': notices})
+
+
+#take attendance
+@login_required
+def take_attendance_view(request):
+    if request.user.profile.role != 'teacher':
+        return HttpResponse("Unauthorized", status=403)
+
+    teacher_info = TeacherInfoModel.objects.get(user=request.user)
+    classes = ClassRoomModel.objects.filter(teacher=teacher_info)
+
+    raw_class = request.GET.get('class') or request.POST.get('class_name')
+    selected_class = re.sub(r'\D', '', raw_class) if raw_class else None
+
+    students = []
+    if selected_class:
+        students = StudentInfoModel.objects.filter(studentclass=selected_class)
+        print("Selected class:", selected_class)
+        print("Students found:", students.count())
+
+    if request.method == 'POST':
+        for student in students:
+            status = request.POST.get(f'status_{student.id}')
+            AttendanceModel.objects.create(
+                teacher=request.user,
+                class_name=selected_class,
+                student=student.user,
+                status=status,
+                date=timezone.now().date()
+            )
+        messages.success(request, "Attendance submitted successfully.")
+        return redirect('take_attendance')
+
+    return render(request, 'take_attendance.html', {
+        'classes': classes,
+        'students': students,
+        'selected_class': raw_class
+    })

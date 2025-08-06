@@ -139,7 +139,7 @@ class StudentNoticeModel(models.Model):
         return f"{self.title} → {self.student.username}"
     
 
-# common msg by admin
+# general message by admin
 class GeneralNoticeModel(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE , limit_choices_to={'profile__role': 'admin'})
     title = models.CharField(max_length=100)
@@ -149,3 +149,15 @@ class GeneralNoticeModel(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+# Take Attendance
+class AttendanceModel(models.Model):
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'profile__role': 'teacher'} ,related_name='attendance_sent')
+    class_name = models.CharField(max_length=100)  # same as in ClassRoomModel
+    student = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'profile__role': 'student'} ,related_name='attendance_receive')
+    date = models.DateField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=(('Present', 'Present'), ('Absent', 'Absent')))
+
+    def __str__(self):
+        return f"{self.student.username} - {self.class_name} - {self.date} - {self.status}"
