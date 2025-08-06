@@ -8,4 +8,6 @@ urlpatterns = [
     path('teacher-dashboard/', teacher_dashboard, name='teacher_dashboard'),
     path('student-dashboard/', student_dashboard, name='student_dashboard'),
     path('unauthorized/', unauthorized_view, name='unauthorized'),
+    path('student/info/', student_info_view, name='student_info'),
+    path('teacher/info/', teacher_info_view, name='teacher_info'),
 ]

@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login , logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Profile
-from .forms import AdminUserCreationForm
+from .models import *
+from .forms import *
 
 # LOGIN VIEW
 def login_view(request):
@@ -85,3 +85,50 @@ def unauthorized_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+
+# Student View
+@login_required
+def student_info_view(request):
+    if request.user.profile.role != 'student':
+        return redirect('unauthorized')
+    
+    student_info = getattr(request.user, 'studentinfomodel', None)
+
+
+    if request.method == 'POST':
+        form = StudentInfoForm(request.POST , instance=student_info)
+        if form.is_valid():
+            student_info = form.save(commit=False)
+            student_info.user = request.user
+            student_info.save()
+            messages.success(request,'Information saved successfully!')
+            return redirect('student_info')
+    else:
+        form = StudentInfoForm(instance=student_info)
+
+    return render(request,'student_info.html',{'form':form})
+
+
+# Teacher View
+@login_required
+def teacher_info_view(request):
+    if request.user.profile.role != 'teacher':
+        return redirect('unauthorized')
+    
+    teacher_info = getattr(request.user, 'teacherinfomodel', None)
+
+
+    if request.method == 'POST':
+        form = TeacherInfoForm(request.POST , instance=teacher_info)
+        if form.is_valid():
+            teacher_info = form.save(commit=False)
+            teacher_info.user = request.user
+            teacher_info.save()
+            messages.success(request,'Information saved successfully!')
+            return redirect('teacher_info')
+    else:
+        form = TeacherInfoForm(instance=teacher_info)
+
+    return render(request,'teacher_info.html',{'form':form})
