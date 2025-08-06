@@ -84,3 +84,43 @@ class ClassRoomModel(models.Model):
 
     def __str__(self):
         return f"{self.class_name} - {self.subject}"
+    
+
+class StudentMarksModel(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'profile__role': 'student'})
+    subject1 = models.IntegerField()
+    subject2 = models.IntegerField()
+    subject3 = models.IntegerField()
+    subject4 = models.IntegerField()
+    subject5 = models.IntegerField()
+    subject6 = models.IntegerField()
+    subject7 = models.IntegerField()
+    subject8 = models.IntegerField()
+    subject9 = models.IntegerField()
+    subject10 = models.IntegerField()
+    total_marks = models.IntegerField(blank=True, null=True)
+    percentage = models.FloatField(blank=True, null=True)
+    division = models.CharField(max_length=50, blank=True)
+
+    def save(self, *args, **kwargs):
+        total = (
+            self.subject1 + self.subject2 + self.subject3 + self.subject4 + self.subject5 +
+            self.subject6 + self.subject7 + self.subject8 + self.subject9 + self.subject10
+        )
+        percent = total / 10
+        self.total_marks = total
+        self.percentage = percent
+
+        if percent >= 65:
+            self.division = 'First Division'
+        elif percent > 50:
+            self.division = 'Second Division'
+        elif percent > 35:
+            self.division = 'Third Division'
+        else:
+            self.division = 'Fail'
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.student.username} - {self.percentage:.2f}%"

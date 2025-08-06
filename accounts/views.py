@@ -175,3 +175,36 @@ def class_list_view(request):
 
     classes = ClassRoomModel.objects.all()
     return render(request, 'class_list.html', {'classes': classes})
+
+
+
+# marks Entry by teacher
+@login_required
+def add_student_marks(request):
+    if request.user.profile.role != 'teacher':
+        return HttpResponse("Unauthorized", status=403)
+
+    if request.method == 'POST':
+        student_id = request.POST.get('student')
+        try:
+            student = User.objects.get(id=student_id)
+        except User.DoesNotExist:
+            messages.error(request, "Student not found.")
+            return redirect('add_marks')
+
+        # Get existing entry if any
+        existing = StudentMarksModel.objects.filter(student=student).first()
+
+        # Bind form to existing or new
+        form = StudentMarksForm(request.POST, instance=existing)
+
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.student = student 
+            obj.save() 
+            messages.success(request, "Marks saved successfully.")
+            return redirect('add_marks')
+    else:
+        form = StudentMarksForm()
+
+    return render(request, 'add_marks.html', {'form': form})

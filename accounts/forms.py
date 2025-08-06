@@ -44,3 +44,10 @@ class ClassRoomForm(forms.ModelForm):
     class Meta:
         model = ClassRoomModel
         fields = ['teacher', 'class_name', 'subject']
+
+# marks entry by teacher
+class StudentMarksForm(forms.ModelForm):
+    class Meta:
+        model = StudentMarksModel
+        exclude = ['total_marks', 'percentage', 'division']
+
