@@ -1,15 +1,62 @@
-<h2>Enter Student Marks</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Marks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
 
-{% if messages %}
-    {% for message in messages %}
-        <p style="color: green;">{{ message }}</p>
-    {% endfor %}
-{% endif %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Enter Student Marks</h4>
+                    </div>
+                    <div class="card-body">
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+                        <!-- 🔹 Step 1: Select Student -->
+                        <form method="GET" class="mb-4">
+                            <div class="mb-3">
+                                <label for="student" class="form-label">Select Student:</label>
+                                <select name="student" class="form-select" onchange="this.form.submit()">
+                                    <option value="">-- Select --</option>
+                                    {% for s in students %}
+                                        <option value="{{ s.id }}" {% if student_id|default:'' == s.id|stringformat:"s" %}selected{% endif %}>
+                                            {{ s.username }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </form>
 
-<a href="{% url 'teacher_dashboard' %}">Home</a>
+                        <!-- 🔹 Step 2: Enter Marks -->
+                        {% if form %}
+                            <div class="alert alert-info">
+                                <strong>Selected Student:</strong> {{ selected_student.username }}
+                            </div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="student" value="{{ student_id }}">
+                                
+                                <div class="mb-3">
+                                    {{ form.as_p }}
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <a href="{% url 'teacher_dashboard' %}" class="btn btn-secondary">Home</a>
+                                </div>
+                            </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

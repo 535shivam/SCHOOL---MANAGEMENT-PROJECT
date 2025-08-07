@@ -1,21 +1,73 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Teacher Time Table</title>
-</head>
-<body>
-    <h2>Your Classes</h2>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        padding: 40px;
+        text-align: center;
+      }
 
-    {% if classes %}
-        <ul>
-            {% for cls in classes %}
-                <li>{{ cls.class_name }} - {{ cls.subject }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No classes assigned yet.</p>
-    {% endif %}
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        width: 50%;
+        margin: 0 auto;
+      }
 
-    <a href="{% url 'teacher_dashboard' %}">Back</a>
-</body>
+      h2 {
+        color: #007bff;
+        margin-bottom: 20px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        background: #f9f9f9;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      .btn:hover {
+        background: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="{% url 'teacher_dashboard' %}" class="btn">Back to Dashboard</a>
+
+      <h2>Your Classes</h2>
+
+      {% if classes %}
+      <ul>
+        {% for cls in classes %}
+        <li>{{ cls.class_name }} – {{ cls.subject }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>No classes assigned yet.</p>
+      {% endif %}
+    </div>
+  </body>
 </html>

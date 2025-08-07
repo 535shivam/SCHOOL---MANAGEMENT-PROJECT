@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create Assignment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #eef2f7;
+      }
+
+      .container {
+        max-width: 750px;
+        margin-top: 40px;
+      }
+
+      .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 1.25rem;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      label {
+        font-weight: 500;
+        margin-top: 10px;
+      }
+
+      .form-control,
+      .form-select {
+        margin-bottom: 15px;
+      }
+
+      .btn-assign {
+        background-color: #28a745;
+        color: white;
+        font-weight: bold;
+      }
+
+      .btn-assign:hover {
+        background-color: #218838;
+      }
+
+      .back-link {
+        margin-bottom: 15px;
+      }
+
+      .back-link a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 🔙 Back Link -->
+      <div class="back-link">
+        <a
+          href="{% url 'teacher_dashboard' %}"
+          class="btn btn-outline-secondary"
+          >← Back to Dashboard</a
+        >
+      </div>
+
+      <!-- 📄 Assignment Card -->
+      <div class="card">
+        <div class="card-header">📝 Create Assignment</div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="id_class_name">Class name:</label>
+              {{ form.class_name }}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_title">Title:</label>
+              {{ form.title }}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_description">Description:</label>
+              {{ form.description }}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_attachment">Attachment:</label>
+              {{ form.attachment }}
+            </div>
+
+            <div class="mb-3">
+              <label for="id_due_date">Due date:</label>
+              {{ form.due_date }}
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-assign">📤 Assign</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

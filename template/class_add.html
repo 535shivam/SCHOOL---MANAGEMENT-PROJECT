@@ -1,6 +1,115 @@
-<h2>Add Class</h2>
-<form method="POST">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
-<a href="{% url 'class_list' %}">Back to list</a>
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add New Class</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f0f2f5;
+      }
+
+      .form-container {
+        max-width: 600px;
+        margin: 50px auto;
+      }
+
+      .card {
+        border: none;
+        border-radius: 0.75rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .form-header {
+        background: linear-gradient(to right, #007bff, #0056b3);
+        color: white;
+        padding: 1.5rem;
+        border-top-left-radius: 0.75rem;
+        border-top-right-radius: 0.75rem;
+        text-align: center;
+      }
+
+      .form-header h3 {
+        margin: 0;
+        font-weight: bold;
+      }
+
+      .form-header i {
+        font-size: 1.5rem;
+        margin-right: 10px;
+      }
+
+      .form-body {
+        padding: 2rem;
+      }
+
+      .btn-save {
+        background-color: #198754;
+        color: white;
+      }
+
+      .btn-save:hover {
+        background-color: #157347;
+      }
+
+      .form-floating > label {
+        color: #6c757d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container form-container">
+      <div class="card">
+        <!-- Header -->
+        <div class="form-header">
+          <h3>📘 Add New Class</h3>
+        </div>
+
+        <!-- Form -->
+        <div class="form-body">
+          <form method="POST">
+            {% csrf_token %}
+
+            <!-- Teacher (Dropdown) -->
+            <div class="form-floating mb-3">
+              {{ form.teacher|add_class:"form-select" }}
+              <label for="id_teacher">Select Teacher</label>
+            </div>
+
+            <!-- Class Name -->
+            <div class="form-floating mb-3">
+              {{ form.class_name|add_class:"form-control" }}
+              <label for="id_class_name">Class Name</label>
+            </div>
+
+            <!-- Subject -->
+            <div class="form-floating mb-4">
+              {{ form.subject|add_class:"form-control" }}
+              <label for="id_subject">Subject</label>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-save btn-lg">💾 Save</button>
+            </div>
+          </form>
+
+          <!-- Back Link -->
+          <div class="text-center mt-3">
+            <a href="{% url 'class_list' %}" class="btn btn-outline-secondary"
+              >← Back to Class List</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

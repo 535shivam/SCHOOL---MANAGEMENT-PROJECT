@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Student Dashboard</title>
+    <title>Your Attendance</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Bootstrap CSS CDN -->
     <link
@@ -22,70 +22,88 @@
       }
       .container {
         background: white;
-        max-width: 600px;
+        max-width: 700px;
         width: 100%;
-        padding: 40px 30px;
+        padding: 35px 30px;
         border-radius: 12px;
         box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
       h2 {
         color: #0d6efd;
-        font-weight: 700;
         margin-bottom: 30px;
+        font-weight: 700;
         letter-spacing: 0.04em;
       }
-      p {
-        font-size: 1.1rem;
-        color: #495057;
-        margin-bottom: 40px;
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 25px;
       }
-      .btn-group {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
+      th,
+      td {
+        padding: 12px 15px;
+        border: 1px solid #dee2e6;
+        text-align: center;
       }
-      .btn-group a {
-        flex: 1 1 40%;
-        max-width: 180px;
-        text-decoration: none;
-        padding: 12px 18px;
+      th {
         background-color: #0d6efd;
         color: white;
         font-weight: 600;
-        border-radius: 6px;
-        transition: background-color 0.3s ease;
-        text-align: center;
-        box-shadow: 0 2px 6px rgba(13, 110, 253, 0.4);
       }
-      .btn-group a:hover {
-        background-color: #0b5ed7;
-        box-shadow: 0 4px 12px rgba(11, 94, 215, 0.6);
+      tr:nth-child(even) {
+        background-color: #f2f6fc;
+      }
+      p {
+        font-size: 1.1rem;
+        color: #6c757d;
+      }
+      a.btn-home {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 28px;
+        background-color: #0d6efd;
         color: white;
+        font-weight: 600;
+        font-size: 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
       }
-      @media (max-width: 480px) {
-        .btn-group a {
-          flex: 1 1 100%;
-          max-width: 100%;
-        }
+      a.btn-home:hover {
+        background-color: #0b5ed7;
+        color: white;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>Welcome Student: {{ request.user.username }}</h2>
-      <p>Be Happy!</p>
+      <h2>Your Attendance</h2>
 
-      <div class="btn-group">
-        <a href="{% url 'general_notices' %}">View General Notices</a>
-        <a href="{% url 'student_info' %}">Add Personal Information</a>
-        <a href="{% url 'student_marks' %}">Result</a>
-        <a href="{% url 'student_notices' %}">Notice</a>
-        <a href="{% url 'student_attendance' %}">Attendance</a>
-        <a href="{% url 'student_assignments' %}">Assignments</a>
-        <a href="{% url 'logout' %}">Logout</a>
-      </div>
+      {% if records %}
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Class</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for rec in records %}
+          <tr>
+            <td>{{ rec.date }}</td>
+            <td>{{ rec.class_name }}</td>
+            <td>{{ rec.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No attendance records found.</p>
+      {% endif %}
+
+      <a href="{% url 'student_dashboard' %}" class="btn-home">Home</a>
     </div>
 
     <!-- Bootstrap JS (optional) -->
