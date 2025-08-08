@@ -10,7 +10,7 @@
 
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 <div class="card shadow-lg">
                     <div class="card-header bg-primary text-white">
                         <h4 class="mb-0">Enter Student Marks</h4>
@@ -20,7 +20,6 @@
                         <!-- 🔹 Step 1: Select Student -->
                         <form method="GET" class="mb-4">
                             <div class="mb-3">
-                                <div><a href="{% url 'teacher_dashboard' %}" class="btn btn-info">Back to Dashboard</a></div><br>
                                 <label for="student" class="form-label">Select Student:</label>
                                 <select name="student" class="form-select" onchange="this.form.submit()">
                                     <option value="">-- Select --</option>
@@ -46,8 +45,9 @@
                                     {{ form.as_p }}
                                 </div>
 
-                                <div class="text-center">
+                                <div class="d-flex justify-content-between">
                                     <button type="submit" class="btn btn-success">Submit</button>
+                                    <a href="{% url 'teacher_dashboard' %}" class="btn btn-secondary">Home</a>
                                 </div>
                             </form>
                         {% endif %}
