@@ -25,4 +25,6 @@ urlpatterns = [
         "teacher/create-assignment/", create_assignment_view, name="create_assignment"
     ),
     path("student/assignments/", student_assignments_view, name="student_assignments"),
+    path("admin/users/", admin_user_list, name="admin_user_list"),
+    path("admin/users/delete/<int:user_id>/", delete_user_view, name="delete_user"),
 ]

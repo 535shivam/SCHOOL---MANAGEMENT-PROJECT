@@ -179,6 +179,33 @@ def class_list_view(request):
     return render(request, "class_list.html", {"classes": classes})
 
 
+# admin see any user
+@login_required
+def admin_user_list(request):
+    if request.user.profile.role != "admin":
+        return redirect("unauthorized")
+
+    users = User.objects.exclude(id=request.user.id)
+    return render(request, "admin_user_list.html", {"users": users})
+
+
+#admin can delete any user
+@login_required
+def delete_user_view(request, user_id):
+    if request.user.profile.role != "admin":
+        return redirect("unauthorized")
+
+    try:
+        user = User.objects.get(id=user_id)
+        user.delete()
+        messages.success(request, "User deleted successfully.")
+    except User.DoesNotExist:
+        messages.error(request, "User not found.")
+
+    return redirect("admin_user_list")
+
+
+
 # marks Entry by teacher
 @login_required
 def add_student_marks(request):
